@@ -92,7 +92,6 @@ export const getMarqueeNotices = async () => {
       .from('notices')
       .select('*')
       .eq('is_marquee', true)
-      .eq('priority', 'urgent')
       .order('published_at', { ascending: false })
       .limit(5);
   

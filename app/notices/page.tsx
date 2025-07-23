@@ -75,12 +75,6 @@ export default function NoticesPage() {
                 Stay updated with the latest announcements and important information
               </p>
             </div>
-            <Link href="/notices/create">
-              <Button className="flex items-center">
-                <Plus className="w-4 h-4 mr-2" />
-                Create Notice
-              </Button>
-            </Link>
           </div>
         </div>
 
