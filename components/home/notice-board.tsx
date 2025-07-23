@@ -81,6 +81,7 @@ export default function NoticeBoard() {
       <CardContent>
         <div className="space-y-4">
           {notices.map((notice) => (
+          <Link href={`/notices/${notice?.id}`}>
             <div key={notice.id} className="border-l-4 border-blue-500 pl-4 py-2 hover:bg-gray-50 transition-colors">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -102,6 +103,7 @@ export default function NoticeBoard() {
                 </div>
               </div>
             </div>
+          </Link>
           ))}
         </div>
       </CardContent>

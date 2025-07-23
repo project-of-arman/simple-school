@@ -6,9 +6,11 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { getNotices } from '@/lib/supabase';
 import { Notice } from '@/types';
 import CreateNoticeDialog from '@/components/dashboard/create-notice-dialog';
+import UpdateNoticeDialog from '@/components/dashboard/update-notice-dialog';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import Link from 'next/link'
 import { Badge } from '@/components/ui/badge';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
@@ -53,6 +55,8 @@ export default function NoticesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
+  const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
+  const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
   const { user, userRole } = useAuth();
   const { language, t } = useLanguage();
 
@@ -81,6 +85,15 @@ export default function NoticesPage() {
 
   const handleNoticeCreated = () => {
     fetchNotices(); // Refresh the notices list
+  };
+
+  const handleNoticeUpdated = () => {
+    fetchNotices(); // Refresh the notices list
+  };
+
+  const openUpdateDialog = (notice: Notice) => {
+    setSelectedNotice(notice);
+    setUpdateDialogOpen(true);
   };
 
   const totalPages = Math.ceil(totalCount / noticesPerPage);
@@ -225,10 +238,19 @@ export default function NoticesPage() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2 ml-4">
+                        <Link href={`/notices/${notice.id}`}>
+                          <Button variant="ghost" size="sm">
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                        </Link>
                         <Button variant="ghost" size="sm">
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button variant="ghost" size="sm">
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => openUpdateDialog(notice)}
+                        >
                           <Edit className="w-4 h-4" />
                         </Button>
                       </div>
@@ -282,6 +304,16 @@ export default function NoticesPage() {
             )}
           </CardContent>
         </Card>
+
+        {/* Update Notice Dialog */}
+        {selectedNotice && (
+          <UpdateNoticeDialog
+            notice={selectedNotice}
+            open={updateDialogOpen}
+            onOpenChange={setUpdateDialogOpen}
+            onNoticeUpdated={handleNoticeUpdated}
+          />
+        )}
       </div>
     </>
   );

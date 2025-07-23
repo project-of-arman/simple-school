@@ -109,7 +109,8 @@ export default function NoticesPage() {
             ) : (
               <div className="space-y-4">
                 {notices.map((notice) => (
-                  <div key={notice.id} className="p-6 border rounded-lg hover:bg-gray-50 transition-colors">
+                  <Link key={notice.id} href={`/notices/${notice.id}`}>
+                    <div className="p-6 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
@@ -148,7 +149,8 @@ export default function NoticesPage() {
                         </div>
                       </div>
                     </div>
-                  </div>
+                    </div>
+                  </Link>
                 ))}
               </div>
             )}
