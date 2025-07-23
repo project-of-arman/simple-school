@@ -3,6 +3,7 @@ import HeroCarousel from '@/components/home/hero-carousel';
 import MarqueeNotice from '@/components/home/marquee-notice';
 import NoticeBoard from '@/components/home/notice-board';
 import TeacherProfiles from '@/components/home/teacher-profiles';
+import ImportantLinks from '@/components/home/important-links';
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-8">
             <NoticeBoard />
+            <ImportantLinks />
             <TeacherProfiles />
           </div>
 

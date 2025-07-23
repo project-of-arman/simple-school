@@ -27,6 +27,26 @@ export const signUp = async (email: string, password: string, userData: any) => 
       data: userData,
     },
   });
+  
+  // If signup was successful, create a profile in the users table
+  if (data.user && !error) {
+    const { error: profileError } = await supabase
+      .from('users')
+      .insert({
+        id: data.user.id,
+        email: data.user.email,
+        role: userData.role,
+        phone: userData.phone || '',
+        name: userData.name || ''
+      });
+    
+    if (profileError) {
+      console.error('Error creating user profile:', profileError);
+      // Don't return this error to avoid confusing the user
+      // The auth user was created successfully
+    }
+  }
+  
   return { data, error };
 };
 
@@ -67,15 +87,20 @@ export const getNotices = async (limit = 10, offset = 0) => {
 };
 
 export const getMarqueeNotices = async () => {
-  const { data, error } = await supabase
-    .from('notices')
-    .select('*')
-    .eq('is_marquee', true)
-    .eq('priority', 'urgent')
-    .order('published_at', { ascending: false })
-    .limit(5);
+  try {
+    const { data, error } = await supabase
+      .from('notices')
+      .select('*')
+      .eq('is_marquee', true)
+      .eq('priority', 'urgent')
+      .order('published_at', { ascending: false })
+      .limit(5);
   
-  return { data, error };
+    return { data, error };
+  } catch (error) {
+    console.error('Error fetching marquee notices:', error);
+    return { data: [], error };
+  }
 };
 
 export const getDashboardStats = async () => {
