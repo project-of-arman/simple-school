@@ -23,17 +23,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Get initial session
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
+      const { data: { session }, error } = await supabase.auth.getSession();
       
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from('users')
-          .select('role')
-          .eq('id', session.user.id)
-          .maybeSingle();
+      if (error) {
+        // Clear invalid session data
+        await supabase.auth.signOut();
+        setUser(null);
+        setUserRole(null);
+      } else {
+        setUser(session?.user ?? null);
         
-        setUserRole(profile?.role ?? null);
+        if (session?.user) {
+          const { data: profile } = await supabase
+            .from('users')
+            .select('role')
+            .eq('id', session.user.id)
+            .maybeSingle();
+          
+          setUserRole(profile?.role ?? null);
+        }
       }
       
       setLoading(false);

@@ -52,7 +52,7 @@ export default function StudentsPage() {
       setLoading(false);
     }
   };
-
+ 
   const totalPages = Math.ceil(totalCount / studentsPerPage);
 
   if (!user) {

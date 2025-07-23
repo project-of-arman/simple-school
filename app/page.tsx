@@ -8,14 +8,21 @@ import ImportantLinks from '@/components/home/important-links';
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <MarqueeNotice />
-      
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <section className="mb-12">
           <HeroCarousel />
+       
         </section>
+        
+        {/* Navbar - positioned after carousel */}
+        <div className="sticky top-0 z-50 -mx-4 sm:-mx-6 lg:-mx-8 mb-8">
+          <Navbar />
+         
+        </div>
+         <div className="z-50 -mx-4 sm:-mx-6 lg:-mx-8 mb-8">
+         <MarqueeNotice />
+        </div>
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
